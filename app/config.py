@@ -1,16 +1,21 @@
 from pymongo import MongoClient
-from dotenv import load_dotenv
+from pymongo.server_api import ServerApi
 import os
+import warnings
+from cryptography.utils import CryptographyDeprecationWarning
 
+warnings.filterwarnings("ignore", category=CryptographyDeprecationWarning)
 
-load_dotenv()
 
 # Read MongoDB URI and database name from environment variables
-MONGO_URI = os.getenv("MONGO_URI", "mongodb://localhost:27017")
-DATABASE_NAME = os.getenv("DATABASE_NAME", "itemsDB")
+MONGO_URI = "mongodb+srv://pavankumar:12345@cluster0.smbft.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+DATABASE_NAME = "itemsDB"
+
+print(f"MONGO_URI: {MONGO_URI}")
+print(f"DATABASE_NAME: {DATABASE_NAME}")
 
 # MongoDB Connection
-client = MongoClient(MONGO_URI)
+client = MongoClient(MONGO_URI, server_api=ServerApi('1'))
 
 # Creating the Database
 db = client[DATABASE_NAME]
